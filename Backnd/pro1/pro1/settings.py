@@ -128,30 +128,29 @@ WSGI_APPLICATION = 'pro1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "e_commerce",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "localhost",
-        "PORT": "3306",
-    }
-}
-
-# Railway / production database (currently disabled)
-
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "railway",
+#         "NAME": "e_commerce",
 #         "USER": "root",
-#         "PASSWORD": "ruDWSIPMcCZNzqVxPmgUwBwKzhjbXpCf",
-#         "HOST": "mysql.railway.internal",
+#         "PASSWORD": "root",
+#         "HOST": "localhost",
 #         "PORT": "3306",
 #     }
 # }
 
+# Railway / production database (currently disabled)
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "railway",
+        "USER": "root",
+        "PASSWORD": "XCqvhFuMjioJGTQUJqcRgGWbeUkAoDwH",
+        "HOST": "sakura.proxy.rlwy.net",
+        "PORT": "27407",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
