@@ -8,3 +8,5 @@ razorpay
 mysqlclient
 Pillow
 gunicorn
+cloudinary
+django-cloudinary-storage

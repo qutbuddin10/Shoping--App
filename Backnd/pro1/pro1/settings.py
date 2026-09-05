@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'app1',
     'corsheaders',
     'rest_framework',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -107,6 +109,23 @@ CSRF_TRUSTED_ORIGINS = [
     # "https://shop-hub-29kx.onrender.com",
     "https://shoping-app-frontend.onrender.com"
 ]
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    'SECURE': True,
+}
+
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+    },
+}
+
 
 
 TEMPLATES = [
@@ -203,4 +222,4 @@ EMAIL_HOST_PASSWORD = "xfzn kprk wncy dwvy"
 
 STATIC_URL = 'static/'
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+
