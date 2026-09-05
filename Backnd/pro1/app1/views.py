@@ -229,56 +229,56 @@ def login(req):
         # at the same time without changing the customer attached
         # to a newly placed order.
 
-       # =====================================================
-# ADMIN LOGIN
-# =====================================================
+        # =====================================================
+        # ADMIN LOGIN
+        # =====================================================
 
-if user.Role and user.Role.lower() == "admin":
+        if user.Role and user.Role.lower() == "admin":
 
-    # Find the actual Admin record using the same email.
-    # The admin session MUST store Admin.id,
-    # because all admin APIs validate against Admin.objects.
+            # Find the actual Admin record using the same email.
+            # The admin session MUST store Admin.id,
+            # because all admin APIs validate against Admin.objects.
 
-    admin = Admin.objects.filter(
-        email__iexact=user.email
-    ).first()
+            admin = Admin.objects.filter(
+                email__iexact=user.email
+            ).first()
 
-    if not admin:
-        return JsonResponse(
-            {
-                "msg": "Admin account not found"
-            },
-            status=404
-        )
+            if not admin:
+                return JsonResponse(
+                    {
+                        "msg": "Admin account not found"
+                    },
+                    status=404
+                )
 
-    # IMPORTANT:
-    # Do NOT set user_id here.
-    # Keep the customer session independent.
+            # IMPORTANT:
+            # Do NOT set user_id here.
+            # Keep the customer session independent.
 
-    req.session["admin_id"] = admin.id
-    req.session["admin_email"] = admin.email
-    req.session["admin_name"] = admin.full_name
+            req.session["admin_id"] = admin.id
+            req.session["admin_email"] = admin.email
+            req.session["admin_name"] = admin.full_name
 
-    req.session.modified = True
-    req.session.save()
+            req.session.modified = True
+            req.session.save()
 
-    return JsonResponse(
-        {
-            "msg": "Login Successful",
-            "role": "admin",
-            "user": {
-                "id": user.id,
-                "name": user.full_name,
-                "email": user.email,
-            },
-            "admin": {
-                "id": admin.id,
-                "name": admin.full_name,
-                "email": admin.email,
-            }
-        },
-        status=200
-    )
+            return JsonResponse(
+                {
+                    "msg": "Login Successful",
+                    "role": "admin",
+                    "user": {
+                        "id": user.id,
+                        "name": user.full_name,
+                        "email": user.email,
+                    },
+                    "admin": {
+                        "id": admin.id,
+                        "name": admin.full_name,
+                        "email": admin.email,
+                    }
+                },
+                status=200
+            )
 
         # =====================================================
         # NORMAL CUSTOMER LOGIN
@@ -319,7 +319,7 @@ if user.Role and user.Role.lower() == "admin":
             },
             status=500
         )
-
+        
 def send_textbee_sms(mobile, message):
 
     device_id = settings.TEXTBEE_DEVICE_ID
