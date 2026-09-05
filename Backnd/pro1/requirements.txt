@@ -1,0 +1,10 @@
+Django==6.0.4
+django-cors-headers
+djangorestframework
+python-dotenv
+requests
+google-auth
+razorpay
+mysqlclient
+Pillow
+gunicorn
