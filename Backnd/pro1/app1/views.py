@@ -234,7 +234,7 @@ def login(req):
         # =====================================================
         if user.Role and user.Role.lower() == "admin":
 
-            admin = Admin.objects.filter(
+            admin = users.objects.filter(
                 email__iexact=user.email
             ).first()
 
