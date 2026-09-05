@@ -229,54 +229,56 @@ def login(req):
         # at the same time without changing the customer attached
         # to a newly placed order.
 
-        # =====================================================
-        # ADMIN LOGIN
-        # =====================================================
-        if user.Role and user.Role.lower() == "admin":
+       # =====================================================
+# ADMIN LOGIN
+# =====================================================
 
-            admin = users.objects.filter(
-                email__iexact=user.email
-            ).first()
+if user.Role and user.Role.lower() == "admin":
 
-            if not admin:
-                return JsonResponse(
-                    {
-                        "msg": "Admin account not found"
-                    },
-                    status=404
-                )
+    # Find the actual Admin record using the same email.
+    # The admin session MUST store Admin.id,
+    # because all admin APIs validate against Admin.objects.
 
-            # IMPORTANT:
-            # Do NOT set user_id here.
-            # Otherwise placing an order from a customer tab
-            # after admin login would attach the order to Admin.
+    admin = Admin.objects.filter(
+        email__iexact=user.email
+    ).first()
 
-            req.session["admin_id"] = admin.id
-            req.session["admin_email"] = admin.email
-            req.session["admin_name"] = admin.full_name
+    if not admin:
+        return JsonResponse(
+            {
+                "msg": "Admin account not found"
+            },
+            status=404
+        )
 
-            # Preserve any existing customer session.
+    # IMPORTANT:
+    # Do NOT set user_id here.
+    # Keep the customer session independent.
 
-            req.session.modified = True
-            req.session.save()
+    req.session["admin_id"] = admin.id
+    req.session["admin_email"] = admin.email
+    req.session["admin_name"] = admin.full_name
 
-            return JsonResponse(
-                {
-                    "msg": "Login Successful",
-                    "role": "admin",
-                    "user": {
-                        "id": admin.id,
-                        "name": admin.full_name,
-                        "email": admin.email,
-                    },
-                    "admin": {
-                        "id": admin.id,
-                        "name": admin.full_name,
-                        "email": admin.email,
-                    }
-                },
-                status=200
-            )
+    req.session.modified = True
+    req.session.save()
+
+    return JsonResponse(
+        {
+            "msg": "Login Successful",
+            "role": "admin",
+            "user": {
+                "id": user.id,
+                "name": user.full_name,
+                "email": user.email,
+            },
+            "admin": {
+                "id": admin.id,
+                "name": admin.full_name,
+                "email": admin.email,
+            }
+        },
+        status=200
+    )
 
         # =====================================================
         # NORMAL CUSTOMER LOGIN
