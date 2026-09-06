@@ -1457,6 +1457,15 @@ const AdminProducts = () => {
                         ? totalSizeStock
                         : Number(product.stock || 0);
 
+                    console.log(
+                      "STOCK_DEBUG",
+                      product.name,
+                      "stock:", product.stock,
+                      "sizes:", product.sizes,
+                      "totalSizeStock:", totalSizeStock,
+                      "displayStock:", displayStock
+                    );
+
                     return (
                       <div
                         key={product.id}
