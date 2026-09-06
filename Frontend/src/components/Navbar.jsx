@@ -575,7 +575,7 @@ const Navbar = () => {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2196FF]/60 to-transparent" />
         <div className="pointer-events-none absolute inset-x-[18%] top-0 h-16 bg-[#2196FF]/[0.04] blur-2xl" />
 
-        <div className="relative mx-auto flex h-[82px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+        <div className="relative mx-auto flex h-[64px] sm:h-[72px] lg:h-[82px] max-w-7xl items-center justify-between px-3 sm:px-8 lg:px-10">
 
           {/* ================= LOGO ================= */}
 
@@ -587,14 +587,14 @@ const Navbar = () => {
             <motion.div
               whileHover={{ scale: 1.06, rotate: -3 }}
               transition={{ type: "spring", stiffness: 380, damping: 20 }}
-              className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F5A524] via-[#FFB83D] to-[#FFD06A] text-[#07111F] shadow-[0_10px_30px_rgba(245,165,36,0.24)]"
+              className="relative flex h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F5A524] via-[#FFB83D] to-[#FFD06A] text-[#07111F] shadow-[0_10px_30px_rgba(245,165,36,0.24)]"
             >
               <div className="absolute inset-0 rounded-2xl bg-white/20 blur-md" />
-              <ShoppingCart className="relative" size={21} strokeWidth={2.5} />
+              <ShoppingCart className="relative" size={18} strokeWidth={2.5} />
             </motion.div>
 
             <div>
-              <h1 className="text-[21px] font-black tracking-tight text-white">
+              <h1 className="text-base sm:text-lg lg:text-[21px] font-black tracking-tight text-white">
                 Shop
                 <span className="bg-gradient-to-r from-[#3B9CFF] via-[#63B7FF] to-[#8AC8FF] bg-clip-text text-transparent">
                   Nest
@@ -985,9 +985,9 @@ const Navbar = () => {
 
           {/* ================= MOBILE RIGHT ================= */}
 
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
 
-            {/* MOBILE CART */}
+            {/* MOBILE CART - made smaller so it doesn't crowd the logo on small screens */}
 
             <button
               ref={mobileCartButtonRef}
@@ -1009,12 +1009,13 @@ const Navbar = () => {
 
                 navigate("/cart");
               }}
-              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.045] text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
+              className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl border border-white/10 bg-white/[0.045] text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
             >
-              <ShoppingCart size={19} />
+              <ShoppingCart size={15} className="sm:hidden" />
+              <ShoppingCart size={17} className="hidden sm:block" />
 
               <span
-                className={`absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-[#080A12] bg-[#F5A524] px-1 text-[9px] font-extrabold text-[#071327] ${
+                className={`absolute -right-1 -top-1 flex h-[14px] min-w-[14px] sm:h-[17px] sm:min-w-[17px] items-center justify-center rounded-full border-2 border-[#080A12] bg-[#F5A524] px-0.5 text-[8px] sm:text-[9px] font-extrabold text-[#071327] ${
                   cartPulse ? "cartBadgePulse" : ""
                 }`}
               >
@@ -1028,12 +1029,18 @@ const Navbar = () => {
               onClick={() =>
                 setMobileMenu(!mobileMenu)
               }
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.045] text-white transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
+              className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl border border-white/10 bg-white/[0.045] text-white transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
             >
               {mobileMenu ? (
-                <X size={21} />
+                <>
+                  <X size={17} className="sm:hidden" />
+                  <X size={19} className="hidden sm:block" />
+                </>
               ) : (
-                <Menu size={21} />
+                <>
+                  <Menu size={17} className="sm:hidden" />
+                  <Menu size={19} className="hidden sm:block" />
+                </>
               )}
             </button>
 
