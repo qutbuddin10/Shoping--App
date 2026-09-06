@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   ChevronLeft,
@@ -64,7 +65,7 @@ export default function U_Categories() {
 
   useEffect(() => {
     const updateVisibleCards = () => {
-      setVisibleCards(window.innerWidth < 768 ? 2 : 3);
+      setVisibleCards(window.innerWidth < 1024 ? 2 : 3);
       setCurrent(0);
     };
 
@@ -152,30 +153,30 @@ export default function U_Categories() {
 
   return (
 
-    <section className="py-20 bg-gradient-to-b from-[#23376d] to-[#314a83] overflow-hidden">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-[#23376d] to-[#314a83] overflow-hidden">
 
       <div className="max-w-7xl mx-auto px-5">
 
 
         {/* HEADING */}
 
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 md:mb-10">
 
-          <p className="uppercase tracking-[6px] text-[#F5A524] font-semibold text-sm">
+          <p className="uppercase tracking-[4px] md:tracking-[6px] text-[#F5A524] font-semibold text-xs md:text-sm">
 
             Shop By Category
 
           </p>
 
 
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-white">
+          <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-white">
 
             Featured Categories
 
           </h2>
 
 
-          <p className="mt-4 text-gray-300 max-w-2xl mx-auto">
+          <p className="mt-3 md:mt-4 text-sm sm:text-base text-gray-300 max-w-2xl mx-auto">
 
             Explore our latest collections.
 
@@ -184,24 +185,24 @@ export default function U_Categories() {
 
           {/* BUTTONS */}
 
-          <div className="flex justify-center gap-4 mt-8">
+          <div className="flex justify-center gap-3 md:gap-4 mt-6 md:mt-8">
 
             <button
               onClick={prev}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
             >
 
-              <ChevronLeft size={24} />
+              <ChevronLeft size={20} className="md:w-6 md:h-6" />
 
             </button>
 
 
             <button
               onClick={next}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
             >
 
-              <ChevronRight size={24} />
+              <ChevronRight size={20} className="md:w-6 md:h-6" />
 
             </button>
 
@@ -218,7 +219,7 @@ export default function U_Categories() {
             className="flex transition-transform duration-700 ease-out"
             style={{
               transform: `translateX(-${
-                current * (100 / visibleCards)
+                current * (100 / Math.max(categories.length, 1))
               }%)`,
             }}
           >
@@ -228,13 +229,13 @@ export default function U_Categories() {
 
                 <div
                   key={category.id}
-                  className="shrink-0 basis-1/2 px-2 md:basis-1/3 md:px-3 bg-transparent"
+                  className="shrink-0 basis-1/2 px-1.5 sm:px-2 md:basis-1/3 md:px-3 bg-transparent"
                 >
                   <div className="h-full bg-white rounded-3xl overflow-hidden shadow-2xl hover:-translate-y-2 transition duration-500">
 
                     {/* IMAGE */}
 
-                  <div className="relative h-[190px] sm:h-[220px] md:h-[230px] overflow-hidden">
+                  <div className="relative h-[145px] sm:h-[175px] md:h-[230px] overflow-hidden">
 
                     {category.image ? (
 
@@ -261,7 +262,7 @@ export default function U_Categories() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
 
-                    <div className="absolute top-4 left-4 bg-[#F5A524] text-black font-semibold px-4 py-1 rounded-full text-xs">
+                    <div className="absolute top-2.5 left-2.5 md:top-4 md:left-4 bg-[#F5A524] text-black font-semibold px-2.5 py-1 md:px-4 rounded-full text-[9px] md:text-xs">
 
                       FEATURED
 
@@ -272,16 +273,16 @@ export default function U_Categories() {
 
                   {/* CONTENT */}
 
-                  <div className="p-4 sm:p-5 md:p-6">
+                  <div className="p-3 sm:p-4 md:p-6">
 
-                    <h3 className="text-2xl font-bold text-gray-900">
+                    <h3 className="text-base sm:text-lg md:text-2xl font-bold text-gray-900">
 
                       {category.name}
 
                     </h3>
 
 
-                    <p className="mt-3 text-gray-500">
+                    <p className="mt-2 md:mt-3 text-xs sm:text-sm md:text-base text-gray-500 line-clamp-2">
 
                       {category.description ||
                         `Explore our ${category.name} collection.`}
@@ -295,12 +296,12 @@ export default function U_Categories() {
                           `/products?category=${category.slug}`
                         )
                       }
-                      className="mt-6 w-full py-3 rounded-xl bg-[#0B0F19] text-white font-semibold flex justify-center items-center gap-2 hover:bg-[#F5A524] hover:text-black transition"
+                      className="mt-3 md:mt-6 w-full py-2 sm:py-2.5 md:py-3 rounded-lg md:rounded-xl bg-[#0B0F19] text-white text-xs sm:text-sm md:text-base font-semibold flex justify-center items-center gap-1.5 md:gap-2 hover:bg-[#F5A524] hover:text-black transition"
                     >
 
                       Shop Now
 
-                      <ArrowRight size={18} />
+                      <ArrowRight size={16} className="md:w-[18px] md:h-[18px]" />
 
                     </button>
 
