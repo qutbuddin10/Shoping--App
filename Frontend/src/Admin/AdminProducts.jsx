@@ -8,7 +8,7 @@ import {
   Boxes,
   FileText,
   Trash2,
-  Pencil,
+  Edit3,
   Search,
   X,
   Loader2,
@@ -49,19 +49,19 @@ const AdminProducts = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const [editingId, setEditingId] = useState(null);
-  const [existingMainImage, setExistingMainImage] = useState(null);
-  const [existingGalleryImages, setExistingGalleryImages] = useState([]);
   const [addingSize, setAddingSize] = useState(false);
 
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [existingGalleryImages, setExistingGalleryImages] = useState([]);
+  const [deletedGalleryImageIds, setDeletedGalleryImageIds] = useState([]);
+  const [mainPreviewType, setMainPreviewType] = useState("none");
 
   const [form, setForm] = useState({
     name: "",
     description: "",
     price: "",
-    old_price: "",
     stock: "",
     category_id: "",
     image: null,
@@ -74,7 +74,6 @@ const AdminProducts = () => {
 
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [sizeStocks, setSizeStocks] = useState({});
-  const [sizeIds, setSizeIds] = useState({});
 
   const [showSizeModal, setShowSizeModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -215,7 +214,7 @@ const AdminProducts = () => {
       return;
     }
 
-    if (preview) {
+    if (preview && mainPreviewType === "blob") {
       URL.revokeObjectURL(preview);
     }
 
@@ -227,6 +226,7 @@ const AdminProducts = () => {
     }));
 
     setPreview(imagePreview);
+    setMainPreviewType("blob");
 
     e.target.value = "";
   };
@@ -236,7 +236,7 @@ const AdminProducts = () => {
   // =====================================================
 
   const removeImage = () => {
-    if (preview) {
+    if (preview && mainPreviewType === "blob") {
       URL.revokeObjectURL(preview);
     }
 
@@ -246,6 +246,7 @@ const AdminProducts = () => {
     }));
 
     setPreview(null);
+    setMainPreviewType("none");
   };
 
   // =====================================================
@@ -342,14 +343,6 @@ const AdminProducts = () => {
           return updated;
         });
 
-        setSizeIds((ids) => {
-          const updated = { ...ids };
-
-          delete updated[size];
-
-          return updated;
-        });
-
         return prev.filter((item) => item !== size);
       }
 
@@ -392,23 +385,236 @@ const AdminProducts = () => {
       name: "",
       description: "",
       price: "",
-      old_price: "",
       stock: "",
       category_id: "",
       image: null,
     });
 
     setPreview(null);
+    setMainPreviewType("none");
 
     setGalleryImages([]);
     setGalleryPreviews([]);
 
     setSelectedSizes([]);
     setSizeStocks({});
-    setSizeIds({});
-    setExistingMainImage(null);
+    setEditingProduct(null);
     setExistingGalleryImages([]);
-    setEditingId(null);
+    setDeletedGalleryImageIds([]);
+  };
+
+  // =====================================================
+  // OPEN EDIT PRODUCT
+  // =====================================================
+
+  const openEditProduct = (product) => {
+    if (!product) {
+      return;
+    }
+
+    if (preview && mainPreviewType === "blob") {
+      URL.revokeObjectURL(preview);
+    }
+
+    galleryPreviews.forEach((item) => {
+      if (item.url) {
+        URL.revokeObjectURL(item.url);
+      }
+    });
+
+    const normalizedGallery = (product.images || []).map((item, index) =>
+      typeof item === "string"
+        ? { id: null, url: item, key: `existing-${index}-${item}` }
+        : { id: item.id, url: item.image, key: `existing-${item.id}` }
+    );
+
+    const productSizes = (product.sizes || []).map((item) => ({
+      size: String(item.size),
+      stock: item.stock ?? "",
+    }));
+
+    const sizes = productSizes.map((item) => item.size);
+    const stocks = {};
+
+    productSizes.forEach((item) => {
+      stocks[item.size] = item.stock;
+    });
+
+    setEditingProduct(product);
+    setForm({
+      name: product.name || "",
+      description: product.description || "",
+      price: product.price ?? "",
+      stock: product.stock ?? "",
+      category_id: product.category?.id ? String(product.category.id) : "",
+      image: null,
+    });
+    setPreview(product.image || null);
+    setMainPreviewType(product.image ? "existing" : "none");
+    setGalleryImages([]);
+    setGalleryPreviews([]);
+    setExistingGalleryImages(normalizedGallery);
+    setDeletedGalleryImageIds([]);
+    setSelectedSizes(sizes);
+    setSizeStocks(stocks);
+    setShowForm(true);
+  };
+
+  // =====================================================
+  // REMOVE EXISTING GALLERY IMAGE
+  // =====================================================
+
+  const removeExistingGalleryImage = (image) => {
+    if (!image) {
+      return;
+    }
+
+    setExistingGalleryImages((prev) =>
+      prev.filter((item) => item.key !== image.key)
+    );
+
+    if (image.id) {
+      setDeletedGalleryImageIds((prev) =>
+        prev.includes(image.id) ? prev : [...prev, image.id]
+      );
+    }
+  };
+
+  // =====================================================
+  // UPDATE PRODUCT
+  // =====================================================
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    if (!editingProduct) {
+      return;
+    }
+
+    if (!form.name.trim()) {
+      Swal.fire("Error", "Product name is required", "error");
+      return;
+    }
+
+    if (!form.category_id) {
+      Swal.fire("Error", "Please select a category", "error");
+      return;
+    }
+
+    if (form.price === "") {
+      Swal.fire("Error", "Product price is required", "error");
+      return;
+    }
+
+    if (form.stock === "") {
+      Swal.fire("Error", "Product stock is required", "error");
+      return;
+    }
+
+    if (Number(form.price) < 0) {
+      Swal.fire("Error", "Price cannot be negative", "error");
+      return;
+    }
+
+    if (
+      Number(form.stock) < 0 ||
+      !Number.isInteger(Number(form.stock))
+    ) {
+      Swal.fire(
+        "Error",
+        "Stock must be a valid whole number",
+        "error"
+      );
+      return;
+    }
+
+    if (!validateSizes()) {
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+
+      const formData = new FormData();
+
+      formData.append("name", form.name.trim());
+      formData.append("description", form.description.trim());
+      formData.append("price", form.price);
+      formData.append("stock", form.stock);
+      formData.append("category_id", form.category_id);
+      formData.append(
+        "sizes",
+        JSON.stringify(
+          selectedSizes.map((size) => ({
+            size,
+            stock: Number(sizeStocks[size]),
+          }))
+        )
+      );
+
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      galleryImages.forEach((file) => {
+        formData.append("gallery_images", file);
+      });
+
+      const response = await fetch(
+        `${api_base}products/${editingProduct.id}/update/`,
+        {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.msg || "Failed to update product");
+      }
+
+      for (const imageId of deletedGalleryImageIds) {
+        const deleteResponse = await fetch(
+          `${api_base}product-images/${imageId}/delete/`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
+
+        if (!deleteResponse.ok) {
+          const deleteData = await deleteResponse.json().catch(() => ({}));
+          throw new Error(
+            deleteData.msg || `Failed to delete gallery image ${imageId}`
+          );
+        }
+      }
+
+      await fetchProducts();
+
+      setShowForm(false);
+      resetForm();
+
+      Swal.fire({
+        title: "Updated",
+        text: "Product updated successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Update product error:", error);
+
+      Swal.fire(
+        "Error",
+        error.message || "Unable to update product",
+        "error"
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // =====================================================
@@ -460,350 +666,15 @@ const AdminProducts = () => {
   };
 
   // =====================================================
-  // OPEN EDIT PRODUCT
-  // =====================================================
-
-  const openEditProduct = async (product) => {
-    try {
-      setSubmitting(true);
-
-      const response = await fetch(
-        `${api_base}products/${product.id}/`,
-        {
-          credentials: "include",
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.msg || "Failed to load product details"
-        );
-      }
-
-      setEditingId(data.id);
-      setForm({
-        name: data.name || "",
-        description: data.description || "",
-        price: data.price || "",
-        old_price: data.old_price || "",
-        stock: data.stock ?? "",
-        category_id: data.category?.id
-          ? String(data.category.id)
-          : "",
-        image: null,
-      });
-
-      setPreview(null);
-      setExistingMainImage(data.image || null);
-      setExistingGalleryImages(data.images || []);
-
-      const sizes = data.sizes || [];
-      setSelectedSizes(
-        sizes.map((item) => String(item.size))
-      );
-
-      const stocks = {};
-      const ids = {};
-
-      sizes.forEach((item) => {
-        const size = String(item.size);
-        stocks[size] = item.stock;
-        ids[size] = item.id;
-      });
-
-      setSizeStocks(stocks);
-      setSizeIds(ids);
-      setGalleryImages([]);
-      setGalleryPreviews([]);
-      setShowForm(true);
-    } catch (error) {
-      console.error("Edit product load error:", error);
-
-      Swal.fire(
-        "Error",
-        error.message || "Unable to load product",
-        "error"
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  // =====================================================
-  // DELETE EXISTING GALLERY IMAGE
-  // =====================================================
-
-  const deleteExistingGalleryImage = async (imageId) => {
-    const result = await Swal.fire({
-      title: "Delete Gallery Image?",
-      text: "This image will be permanently removed.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ef4444",
-      cancelButtonColor: "#374151",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-      background: "#111722",
-      color: "#ffffff",
-    });
-
-    if (!result.isConfirmed) {
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `${api_base}product-images/${imageId}/delete/`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.msg || "Failed to delete gallery image"
-        );
-      }
-
-      setExistingGalleryImages((prev) =>
-        prev.filter((image) => image.id !== imageId)
-      );
-
-      setProducts((prev) =>
-        prev.map((product) =>
-          product.id === editingId
-            ? {
-                ...product,
-                images: (product.images || []).filter(
-                  (image) => image.id !== imageId
-                ),
-              }
-            : product
-        )
-      );
-
-      Swal.fire({
-        title: "Deleted",
-        text: "Gallery image deleted successfully",
-        icon: "success",
-        timer: 1200,
-        showConfirmButton: false,
-      });
-    } catch (error) {
-      console.error(
-        "Delete gallery image error:",
-        error
-      );
-
-      Swal.fire(
-        "Error",
-        error.message || "Unable to delete gallery image",
-        "error"
-      );
-    }
-  };
-
-  // =====================================================
-  // UPDATE PRODUCT
-  // =====================================================
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-
-    if (!editingId) {
-      return;
-    }
-
-    if (!form.name.trim()) {
-      Swal.fire(
-        "Error",
-        "Product name is required",
-        "error"
-      );
-      return;
-    }
-
-    if (!form.category_id) {
-      Swal.fire(
-        "Error",
-        "Please select a category",
-        "error"
-      );
-      return;
-    }
-
-    if (form.price === "") {
-      Swal.fire(
-        "Error",
-        "Product price is required",
-        "error"
-      );
-      return;
-    }
-
-    if (Number(form.price) < 0) {
-      Swal.fire(
-        "Error",
-        "Price cannot be negative",
-        "error"
-      );
-      return;
-    }
-
-    if (
-      form.old_price !== "" &&
-      Number(form.old_price) < 0
-    ) {
-      Swal.fire(
-        "Error",
-        "Old price cannot be negative",
-        "error"
-      );
-      return;
-    }
-
-    if (
-      form.stock === "" ||
-      Number(form.stock) < 0 ||
-      !Number.isInteger(Number(form.stock))
-    ) {
-      Swal.fire(
-        "Error",
-        "Stock must be a valid whole number",
-        "error"
-      );
-      return;
-    }
-
-    if (!validateSizes()) {
-      return;
-    }
-
-    try {
-      setSubmitting(true);
-
-      const formData = new FormData();
-
-      formData.append(
-        "name",
-        form.name.trim()
-      );
-
-      formData.append(
-        "description",
-        form.description.trim()
-      );
-
-      formData.append(
-        "price",
-        form.price
-      );
-
-      formData.append(
-        "old_price",
-        form.old_price
-      );
-
-      formData.append(
-        "stock",
-        form.stock
-      );
-
-      formData.append(
-        "category_id",
-        form.category_id
-      );
-
-      if (form.image) {
-        formData.append(
-          "image",
-          form.image
-        );
-      }
-
-      galleryImages.forEach((file) => {
-        formData.append(
-          "gallery_images",
-          file
-        );
-      });
-
-      const sizes = selectedSizes.map((size) => ({
-        id: sizeIds[size] || null,
-        size,
-        stock: Number(sizeStocks[size]),
-      }));
-
-      formData.append(
-        "sizes",
-        JSON.stringify(sizes)
-      );
-
-      const response = await fetch(
-        `${api_base}products/${editingId}/update/`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.msg || "Failed to update product"
-        );
-      }
-
-      const updatedProduct = data.product;
-
-      setProducts((prev) =>
-        prev.map((product) =>
-          product.id === editingId
-            ? updatedProduct
-            : product
-        )
-      );
-
-      setShowForm(false);
-      resetForm();
-
-      Swal.fire({
-        title: "Success",
-        text: "Product updated successfully",
-        icon: "success",
-        timer: 1600,
-        showConfirmButton: false,
-      });
-    } catch (error) {
-      console.error(
-        "Update product error:",
-        error
-      );
-
-      Swal.fire(
-        "Error",
-        error.message || "Unable to update product",
-        "error"
-      );
-
-      await fetchProducts();
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  // =====================================================
   // ADD PRODUCT
   // =====================================================
 
   const handleSubmit = async (e) => {
+    if (editingProduct) {
+      await handleUpdate(e);
+      return;
+    }
+
     e.preventDefault();
 
     // ===================================================
@@ -1049,7 +920,7 @@ const AdminProducts = () => {
   const handleDelete = async (id, name) => {
     const result = await Swal.fire({
       title: "Delete Product?",
-      text: `"${name}" permanently delete.`,
+      text: `"${name}" permanently delete thase.`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ef4444",
@@ -1450,6 +1321,9 @@ const AdminProducts = () => {
                         0
                       );
 
+                    const displayStock =
+                      product.stock ?? totalSizeStock;
+
                     return (
                       <div
                         key={product.id}
@@ -1530,12 +1404,12 @@ const AdminProducts = () => {
 
                               <p
                                 className={`text-sm font-bold ${
-                                  totalSizeStock > 0
+                                  Number(displayStock) > 0
                                     ? "text-emerald-400"
                                     : "text-red-400"
                                 }`}
                               >
-                                {totalSizeStock}
+                                {displayStock}
                               </p>
 
                             </div>
@@ -1607,56 +1481,53 @@ const AdminProducts = () => {
 
                           </div>
 
-                          {/* EDIT */}
+                          {/* ACTIONS */}
 
-                          <button
-                            onClick={() =>
-                              openEditProduct(product)
-                            }
-                            disabled={submitting}
-                            className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#F5A524]/20 bg-[#F5A524]/[0.06] text-[#F5A524] text-sm font-semibold hover:bg-[#F5A524] hover:text-black hover:border-[#F5A524] transition-colors duration-200 disabled:opacity-50"
-                          >
-                            <Pencil size={16} />
-                            Edit Product
-                          </button>
+                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => openEditProduct(product)}
+                              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[#F5A524]/20 bg-[#F5A524]/[0.06] text-[#F5A524] text-sm font-semibold hover:bg-[#F5A524] hover:text-black hover:border-[#F5A524] transition-colors duration-200"
+                            >
+                              <Edit3 size={16} />
+                              Edit Product
+                            </button>
 
-                          {/* DELETE */}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleDelete(
+                                  product.id,
+                                  product.name
+                                )
+                              }
+                              disabled={
+                                deletingId ===
+                                product.id
+                              }
+                              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-rose-500/20 bg-rose-500/[0.06] text-rose-400 text-sm font-semibold hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-colors duration-200 disabled:opacity-50"
+                            >
 
-                          <button
-                            onClick={() =>
-                              handleDelete(
-                                product.id,
-                                product.name
-                              )
-                            }
-                            disabled={
-                              deletingId ===
-                              product.id
-                            }
-                            className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-rose-500/20 bg-rose-500/[0.06] text-rose-400 text-sm font-semibold hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-colors duration-200 disabled:opacity-50"
-                          >
+                              {deletingId ===
+                              product.id ? (
+                                <>
+                                  <Loader2
+                                    size={16}
+                                    className="animate-spin"
+                                  />
 
-                            {deletingId ===
-                            product.id ? (
-                              <>
-                                <Loader2
-                                  size={16}
-                                  className="animate-spin"
-                                />
+                                  Deleting...
+                                </>
+                              ) : (
+                                <>
+                                  <Trash2 size={16} />
 
-                                Deleting...
-                              </>
-                            ) : (
-                              <>
-                                <Trash2
-                                  size={16}
-                                />
+                                  Delete
+                                </>
+                              )}
 
-                                Delete Product
-                              </>
-                            )}
-
-                          </button>
+                            </button>
+                          </div>
 
                         </div>
 
@@ -1722,7 +1593,7 @@ const AdminProducts = () => {
 
           {/* PANEL */}
 
-          <div className="relative w-full max-w-md h-full bg-[#0E1420] border-l border-white/10 shadow-2xl shadow-black/50 flex flex-col">
+          <div className="relative w-full sm:max-w-md h-full bg-[#0E1420] border-l border-white/10 shadow-2xl shadow-black/50 flex flex-col">
 
             {/* HEADER */}
 
@@ -1741,11 +1612,11 @@ const AdminProducts = () => {
                   <div>
 
                     <h2 className="font-bold text-lg text-white">
-                      {editingId ? "Edit Product" : "Add New Product"}
+                      {editingProduct ? "Edit Product" : "Add New Product"}
                     </h2>
 
                     <p className="text-xs text-gray-500 mt-0.5">
-                      {editingId
+                      {editingProduct
                         ? "Update product details, images and sizes"
                         : "Add product details, images and sizes"}
                     </p>
@@ -1769,8 +1640,8 @@ const AdminProducts = () => {
 
             <form
               id="product-form"
-              onSubmit={editingId ? handleUpdate : handleSubmit}
-              className="flex-1 overflow-y-auto px-6 py-6 space-y-5"
+              onSubmit={handleSubmit}
+              className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5"
             >
 
               {/* =================================================
@@ -1796,13 +1667,32 @@ const AdminProducts = () => {
                       Main Image
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-500 transition-colors"
-                    >
-                      <X size={17} />
-                    </button>
+                    {editingProduct ? (
+                      <>
+                        <label
+                          htmlFor="main-image-input"
+                          className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-[#F5A524] hover:text-black transition-colors cursor-pointer"
+                        >
+                          <Edit3 size={17} />
+                        </label>
+
+                        <input
+                          id="main-image-input"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                        />
+                      </>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-500 transition-colors"
+                      >
+                        <X size={17} />
+                      </button>
+                    )}
 
                   </div>
                 ) : (
@@ -1813,7 +1703,9 @@ const AdminProducts = () => {
                     </div>
 
                     <p className="mt-3 text-sm font-semibold text-gray-300">
-                      Upload main product image
+                      {editingProduct
+                        ? "Upload replacement image"
+                        : "Upload main product image"}
                     </p>
 
                     <p className="mt-1 text-xs text-gray-600">
@@ -1876,38 +1768,42 @@ const AdminProducts = () => {
 
                 {/* EXISTING GALLERY IMAGES */}
 
-                {editingId && existingGalleryImages.length > 0 && (
-                  <div className="grid grid-cols-3 gap-2 mt-3">
-                    {existingGalleryImages.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-white/[0.03]"
-                      >
-                        <img
-                          src={item.image}
-                          alt={`Existing Gallery ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                {editingProduct && existingGalleryImages.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-[11px] font-semibold text-gray-500 mb-2">
+                      Existing gallery images
+                    </p>
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            deleteExistingGalleryImage(item.id)
-                          }
-                          className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-500 transition-colors"
+                    <div className="grid grid-cols-3 gap-2">
+                      {existingGalleryImages.map((item, index) => (
+                        <div
+                          key={item.key}
+                          className="relative aspect-square rounded-xl overflow-hidden border border-white/10 bg-white/[0.03]"
                         >
-                          <X size={14} />
-                        </button>
+                          <img
+                            src={item.url}
+                            alt={`Existing gallery ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
 
-                        <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-black/60 text-[9px] text-white">
-                          Existing {index + 1}
+                          <button
+                            type="button"
+                            onClick={() => removeExistingGalleryImage(item)}
+                            className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-red-500 transition-colors"
+                          >
+                            <X size={14} />
+                          </button>
+
+                          <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-black/60 text-[9px] text-white">
+                            Existing {index + 1}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {/* GALLERY PREVIEWS */}
+                {/* NEW GALLERY PREVIEWS */}
 
                 {galleryPreviews.length > 0 && (
                   <div className="grid grid-cols-3 gap-2 mt-3">
@@ -2047,16 +1943,19 @@ const AdminProducts = () => {
               </div>
 
               {/* =================================================
-                  PRICE + OLD PRICE
+                  PRICE + STOCK
               ================================================= */}
 
               <div className="grid grid-cols-2 gap-3">
+
                 <div>
+
                   <label className="block text-sm font-semibold text-gray-300 mb-2">
                     Price
                   </label>
 
                   <div className="relative">
+
                     <IndianRupee
                       size={16}
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
@@ -2072,59 +1971,38 @@ const AdminProducts = () => {
                       placeholder="0.00"
                       className="w-full pl-9 pr-3 py-3 rounded-xl border border-white/[0.08] bg-white/[0.03] text-white text-sm outline-none focus:border-[#F5A524]/50"
                     />
+
                   </div>
+
                 </div>
 
                 <div>
+
                   <label className="block text-sm font-semibold text-gray-300 mb-2">
-                    Old Price
+                    Base Stock
                   </label>
 
                   <div className="relative">
-                    <IndianRupee
-                      size={16}
+
+                    <Boxes
+                      size={17}
                       className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
                     />
 
                     <input
                       type="number"
-                      name="old_price"
+                      name="stock"
                       min="0"
-                      step="0.01"
-                      value={form.old_price}
+                      value={form.stock}
                       onChange={handleChange}
-                      placeholder="Optional"
+                      placeholder="0"
                       className="w-full pl-9 pr-3 py-3 rounded-xl border border-white/[0.08] bg-white/[0.03] text-white text-sm outline-none focus:border-[#F5A524]/50"
                     />
+
                   </div>
+
                 </div>
-              </div>
 
-              {/* =================================================
-                  STOCK
-              ================================================= */}
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Base Stock
-                </label>
-
-                <div className="relative">
-                  <Boxes
-                    size={17}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-                  />
-
-                  <input
-                    type="number"
-                    name="stock"
-                    min="0"
-                    value={form.stock}
-                    onChange={handleChange}
-                    placeholder="0"
-                    className="w-full pl-9 pr-3 py-3 rounded-xl border border-white/[0.08] bg-white/[0.03] text-white text-sm outline-none focus:border-[#F5A524]/50"
-                  />
-                </div>
               </div>
 
               {/* =================================================
@@ -2145,7 +2023,7 @@ const AdminProducts = () => {
 
                 </div>
 
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
 
                   {SIZE_OPTIONS.map(
                     (size) => {
@@ -2310,13 +2188,13 @@ const AdminProducts = () => {
                       className="animate-spin"
                     />
 
-                    Adding Product...
+                    {editingProduct ? "Updating Product..." : "Adding Product..."}
                   </>
                 ) : (
                   <>
-                    <Plus size={18} />
+                    {editingProduct ? <Edit3 size={18} /> : <Plus size={18} />}
 
-                    Add Product
+                    {editingProduct ? "Update Product" : "Add Product"}
                   </>
                 )}
 
@@ -2346,7 +2224,7 @@ const AdminProducts = () => {
 
               {/* MODAL HEADER */}
 
-              <div className="px-6 py-5 border-b border-white/[0.06] flex items-center justify-between">
+              <div className="px-4 sm:px-6 py-5 border-b border-white/[0.06] flex items-center justify-between">
 
                 <div>
 
@@ -2373,7 +2251,7 @@ const AdminProducts = () => {
 
               <form
                 onSubmit={handleAddSize}
-                className="p-6 space-y-5"
+                className="p-4 sm:p-6 space-y-5"
               >
 
                 <div>
@@ -2382,7 +2260,7 @@ const AdminProducts = () => {
                     Size
                   </label>
 
-                  <div className="grid grid-cols-5 gap-2 mb-3">
+                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-3">
 
                     {SIZE_OPTIONS.map(
                       (size) => {
