@@ -1312,17 +1312,7 @@ const AdminProducts = () => {
                   (product) => {
 
                     const totalSizeStock =
-                      (product.sizes || []).reduce(
-                        (total, item) =>
-                          total +
-                          Number(
-                            item.stock || 0
-                          ),
-                        0
-                      );
-
-                    const displayStock =
-                      product.stock ?? totalSizeStock;
+                      Number(product.stock || 0);
 
                     return (
                       <div
@@ -1404,12 +1394,12 @@ const AdminProducts = () => {
 
                               <p
                                 className={`text-sm font-bold ${
-                                  Number(displayStock) > 0
+                                  totalSizeStock > 0
                                     ? "text-emerald-400"
                                     : "text-red-400"
                                 }`}
                               >
-                                {displayStock}
+                                {totalSizeStock}
                               </p>
 
                             </div>
@@ -1483,7 +1473,7 @@ const AdminProducts = () => {
 
                           {/* ACTIONS */}
 
-                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <div className="mt-4 grid grid-cols-2 gap-2">
                             <button
                               type="button"
                               onClick={() => openEditProduct(product)}
@@ -1593,7 +1583,7 @@ const AdminProducts = () => {
 
           {/* PANEL */}
 
-          <div className="relative w-full sm:max-w-md h-full bg-[#0E1420] border-l border-white/10 shadow-2xl shadow-black/50 flex flex-col">
+          <div className="relative w-full max-w-md h-full bg-[#0E1420] border-l border-white/10 shadow-2xl shadow-black/50 flex flex-col">
 
             {/* HEADER */}
 
@@ -1641,7 +1631,7 @@ const AdminProducts = () => {
             <form
               id="product-form"
               onSubmit={handleSubmit}
-              className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 sm:py-6 space-y-5"
+              className="flex-1 overflow-y-auto px-6 py-6 space-y-5"
             >
 
               {/* =================================================
@@ -2023,7 +2013,7 @@ const AdminProducts = () => {
 
                 </div>
 
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+                <div className="grid grid-cols-5 gap-2">
 
                   {SIZE_OPTIONS.map(
                     (size) => {
@@ -2224,7 +2214,7 @@ const AdminProducts = () => {
 
               {/* MODAL HEADER */}
 
-              <div className="px-4 sm:px-6 py-5 border-b border-white/[0.06] flex items-center justify-between">
+              <div className="px-6 py-5 border-b border-white/[0.06] flex items-center justify-between">
 
                 <div>
 
@@ -2251,7 +2241,7 @@ const AdminProducts = () => {
 
               <form
                 onSubmit={handleAddSize}
-                className="p-4 sm:p-6 space-y-5"
+                className="p-6 space-y-5"
               >
 
                 <div>
@@ -2260,7 +2250,7 @@ const AdminProducts = () => {
                     Size
                   </label>
 
-                  <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-3">
+                  <div className="grid grid-cols-5 gap-2 mb-3">
 
                     {SIZE_OPTIONS.map(
                       (size) => {
