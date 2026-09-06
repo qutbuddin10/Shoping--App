@@ -1298,7 +1298,9 @@ def categories_api(req):
                 "description": category.description,
                 "image": image_url,
                 "status": category.status,
-                "products": 0,
+                "products": Product.objects.filter(
+                    category=category
+                ).count(),
                 "created_at": category.created_at,
             })
 
