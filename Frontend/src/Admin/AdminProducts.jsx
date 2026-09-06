@@ -1504,8 +1504,8 @@ const AdminProducts = () => {
 
                         <div className="p-5">
 
-                          <h3 className="font-bold text-base text-white line-clamp-1">
-                            {product.name}
+                          <h3 className="font-bold text-[10px] text-white line-clamp-1">
+                            {product.name} (DEPLOY_CHECK_V2)
                           </h3>
 
                           <p className="mt-2 text-xs text-gray-500 line-clamp-2 min-h-[32px]">
