@@ -1311,8 +1311,8 @@ const AdminProducts = () => {
                 {filteredProducts.map(
                   (product) => {
 
-                    const totalSizeStock =
-                      Number(product.stock || 0);
+                    const displayStock =
+                      Number(product.stock ?? 0);
 
                     return (
                       <div
@@ -1394,12 +1394,12 @@ const AdminProducts = () => {
 
                               <p
                                 className={`text-sm font-bold ${
-                                  totalSizeStock > 0
+                                  displayStock > 0
                                     ? "text-emerald-400"
                                     : "text-red-400"
                                 }`}
                               >
-                                {totalSizeStock}
+                                {displayStock}
                               </p>
 
                             </div>
