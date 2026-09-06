@@ -1,233 +1,4 @@
-// import React, { useState, useEffect } from "react";
-// import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-
-// // ================= Images =================
-
-// import mobile from "../assets/hero/categories/mobile.jpg";
-// import laptop from "../assets/hero/categories/laptop.jpg";
-// import fashion from "../assets/hero/categories/fashion.jpg";
-// import shoes from "../assets/hero/categories/shoes.jpg";
-// import watch from "../assets/hero/categories/watch.jpg";
-// import furniture from "../assets/hero/categories/furniture.jpg";
-// import gaming from "../assets/hero/categories/gaming.jpg";
-// import beauty from "../assets/hero/categories/beauty.jpg";
-
-// // ================= Categories =================
-
-// const categories = [
-//   {
-//     id: 1,
-//     title: "Smartphones",
-//     subtitle: "UP TO 50% OFF",
-//     desc: "Latest flagship smartphones with exclusive launch offers.",
-//     image: mobile,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 2,
-//     title: "Laptops",
-//     subtitle: "BEST DEALS",
-//     desc: "Powerful laptops for work, gaming and creativity.",
-//     image: laptop,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 3,
-//     title: "Fashion",
-//     subtitle: "NEW ARRIVALS",
-//     desc: "Trending fashion collection for men and women.",
-//     image: fashion,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 4,
-//     title: "Shoes",
-//     subtitle: "STARTING ₹499",
-//     desc: "Premium sneakers and sports shoes for every occasion.",
-//     image: shoes,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 5,
-//     title: "Luxury Watches",
-//     subtitle: "PREMIUM",
-//     desc: "Luxury watches crafted with timeless elegance.",
-//     image: watch,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 6,
-//     title: "Furniture",
-//     subtitle: "NEW COLLECTION",
-//     desc: "Modern furniture for your dream home.",
-//     image: furniture,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 7,
-//     title: "Gaming",
-//     subtitle: "TOP SELLING",
-//     desc: "Gaming accessories for an immersive experience.",
-//     image: gaming,
-//     button: "Shop Now",
-//   },
-
-//   {
-//     id: 8,
-//     title: "Beauty",
-//     subtitle: "BUY 1 GET 1",
-//     desc: "Beauty essentials with exciting offers.",
-//     image: beauty,
-//     button: "Shop Now",
-//   },
-// ];
-
-// // ================= React Logic =================
-
-// export default function U_Categories() {
-//   const [current, setCurrent] = useState(0);
-
-//   // Desktop માં એક સાથે 3 Cards દેખાશે
-//   const visibleCards = 3;
-
-//   // Next Button
-//   const next = () => {
-//     if (current < categories.length - visibleCards) {
-//       setCurrent(current + 1);
-//     } else {
-//       setCurrent(0);
-//     }
-//   };
-
-//   // Previous Button
-//   const prev = () => {
-//     if (current > 0) {
-//       setCurrent(current - 1);
-//     } else {
-//       setCurrent(categories.length - visibleCards);
-//     }
-//   };
-
-//   // Auto Slide
-//   useEffect(() => {
-//     const slider = setInterval(() => {
-//       next();
-//     }, 3500);
-
-//     return () => clearInterval(slider);
-//   }, [current]);
-
-//   return (
-//     <section className="py-20 bg-gradient-to-b from-[#23376d] to-[#314a83] overflow-hidden">
-
-//   <div className="max-w-7xl mx-auto px-5">
-
-//     {/* Heading */}
-//     <div className="text-center mb-10">
-
-//       <p className="uppercase tracking-[8px] text-[#F5A524] font-semibold text-sm">
-//         Shop By Category
-//       </p>
-
-//       <h2 className="mt-3 text-5xl font-bold text-white">
-//         Featured Categories
-//       </h2>
-
-//       <p className="mt-4 text-gray-300 max-w-2xl mx-auto text-lg">
-//         Explore premium collections carefully selected for your lifestyle.
-//       </p>
-
-//       {/* Buttons */}
-//       <div className="flex justify-center gap-5 mt-8">
-
-//         <button
-//           onClick={prev}
-//           className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black duration-300"
-//         >
-//           <ChevronLeft size={26} />
-//         </button>
-
-//         <button
-//           onClick={next}
-//           className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black duration-300"
-//         >
-//           <ChevronRight size={26} />
-//         </button>
-
-//       </div>
-
-//     </div>
-
-//     {/* Slider */}
-//     <div className="overflow-hidden">
-
-//       <div
-//         className="flex gap-8 transition-all duration-700"
-//         style={{
-//           transform: `translateX(-${current * 348}px)`,
-//         }}
-//       >        {categories.map((item) => (
-//           <div
-//             key={item.id}
-//             className="min-w-[320px] md:min-w-[330px] bg-white rounded-3xl overflow-hidden shadow-2xl hover:-translate-y-2 duration-500"
-//           >
-//             {/* Image */}
-//             <div className="relative h-[250px] overflow-hidden">
-
-//               <img
-//                 src={item.image}
-//                 alt={item.title}
-//                 className="w-full h-full object-cover hover:scale-110 duration-700"
-//               />
-
-//               {/* Badge */}
-//               <div className="absolute top-4 left-4 bg-[#F5A524] text-black font-semibold px-4 py-1 rounded-full text-xs">
-//                 {item.subtitle}
-//               </div>
-
-//             </div>
-
-//             {/* Content */}
-//             <div className="p-6">
-
-//               <h3 className="text-2xl font-bold text-gray-900">
-//                 {item.title}
-//               </h3>
-
-//               <p className="mt-3 text-gray-500 leading-relaxed">
-//                 {item.desc}
-//               </p>
-
-//               <button
-//                 className="mt-6 w-full py-3 rounded-xl bg-[#0B0F19] text-white font-semibold flex justify-center items-center gap-2 hover:bg-[#F5A524] hover:text-black duration-300"
-//               >
-//                 {item.button}
-//                 <ArrowRight size={18} />
-//               </button>
-
-//             </div>
-
-//           </div>
-//         ))}
-
-//       </div>
-//     </div>
-
-//   </div>
-
-// </section>
-
-//   );
-// }
-
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -242,10 +13,8 @@ import api_base from "../apibase";
 export default function U_Categories() {
 
   const [categories, setCategories] = useState([]);
-
+  const [current, setCurrent] = useState(0);
   const [visibleCards, setVisibleCards] = useState(3);
-
-  const sliderRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -260,23 +29,17 @@ export default function U_Categories() {
 
       try {
 
-        const response = await axios.get(
-          `${api_base}categories/`
-        );
+        const response = await axios.get(`${api_base}categories/`);
 
-        const activeCategories =
-          response.data.filter(
-            (category) => category.status
-          );
+        const activeCategories = response.data.filter(
+          (category) => category.status
+        );
 
         setCategories(activeCategories);
 
       } catch (error) {
 
-        console.log(
-          "Category Error:",
-          error
-        );
+        console.log("Category Error:", error);
 
       }
 
@@ -289,43 +52,59 @@ export default function U_Categories() {
 
   // ==========================
   // RESPONSIVE VISIBLE CARDS
+  // 1 card  -> phones   (<640px)
+  // 2 cards -> tablets  (640px - 1023px)
+  // 3 cards -> desktop  (>=1024px)
   // ==========================
 
   useEffect(() => {
+
     const updateVisibleCards = () => {
-      setVisibleCards(window.innerWidth < 1024 ? 2 : 3);
+
+      const width = window.innerWidth;
+
+      if (width < 640) {
+        setVisibleCards(1);
+      } else if (width < 1024) {
+        setVisibleCards(2);
+      } else {
+        setVisibleCards(3);
+      }
+
+      setCurrent(0);
+
     };
 
     updateVisibleCards();
     window.addEventListener("resize", updateVisibleCards);
 
-    return () =>
-      window.removeEventListener("resize", updateVisibleCards);
+    return () => window.removeEventListener("resize", updateVisibleCards);
+
   }, []);
+
+
+  // Keep `current` inside valid bounds whenever the data or the
+  // number of visible cards changes (e.g. category count updated,
+  // or the viewport crossed a breakpoint).
+  useEffect(() => {
+
+    const maxIndex = Math.max(categories.length - visibleCards, 0);
+
+    setCurrent((prev) => Math.min(prev, maxIndex));
+
+  }, [categories.length, visibleCards]);
 
 
   const next = () => {
 
-    const slider = sliderRef.current;
+    setCurrent((prev) => {
 
-    if (!slider || categories.length <= visibleCards) {
-      return;
-    }
+      const maxIndex = categories.length - visibleCards;
 
-    const cardWidth = slider.clientWidth / visibleCards;
-    const maxScroll = slider.scrollWidth - slider.clientWidth;
+      if (maxIndex <= 0) return 0;
 
-    if (slider.scrollLeft >= maxScroll - 5) {
-      slider.scrollTo({
-        left: 0,
-        behavior: "smooth"
-      });
-      return;
-    }
+      return prev >= maxIndex ? 0 : prev + 1;
 
-    slider.scrollBy({
-      left: cardWidth,
-      behavior: "smooth"
     });
 
   };
@@ -333,25 +112,14 @@ export default function U_Categories() {
 
   const prev = () => {
 
-    const slider = sliderRef.current;
+    setCurrent((prev) => {
 
-    if (!slider || categories.length <= visibleCards) {
-      return;
-    }
+      const maxIndex = categories.length - visibleCards;
 
-    const cardWidth = slider.clientWidth / visibleCards;
+      if (maxIndex <= 0) return 0;
 
-    if (slider.scrollLeft <= 5) {
-      slider.scrollTo({
-        left: slider.scrollWidth - slider.clientWidth,
-        behavior: "smooth"
-      });
-      return;
-    }
+      return prev <= 0 ? maxIndex : prev - 1;
 
-    slider.scrollBy({
-      left: -cardWidth,
-      behavior: "smooth"
     });
 
   };
@@ -363,111 +131,101 @@ export default function U_Categories() {
 
   useEffect(() => {
 
-    if (categories.length <= visibleCards) {
-      return;
-    }
+    if (categories.length <= visibleCards) return;
 
-    const timer = setInterval(
-      next,
-      3500
-    );
+    const timer = setInterval(next, 3500);
 
-    return () =>
-      clearInterval(timer);
+    return () => clearInterval(timer);
 
   }, [categories.length, visibleCards]);
 
 
   if (categories.length === 0) {
-
     return null;
-
   }
+
+  const canSlide = categories.length > visibleCards;
+
+  // Every card takes an equal share of the track: 100 / visibleCards.
+  // The track is translated in the SAME units, so one click always
+  // moves exactly one full card - no matter the screen size or
+  // how many categories exist.
+  const cardWidthPercent = 100 / visibleCards;
 
 
   return (
 
-    <section className="py-20 bg-gradient-to-b from-[#23376d] to-[#314a83] overflow-hidden">
+    <section className="py-14 sm:py-20 bg-gradient-to-b from-[#23376d] to-[#314a83] overflow-hidden">
 
-      <div className="max-w-7xl mx-auto px-5">
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-5">
 
         {/* HEADING */}
 
-        <div className="text-center mb-10">
+        <div className="text-center mb-8 sm:mb-10">
 
-          <p className="uppercase tracking-[6px] text-[#F5A524] font-semibold text-sm">
-
+          <p className="uppercase tracking-[4px] sm:tracking-[6px] text-[#F5A524] font-semibold text-xs sm:text-sm">
             Shop By Category
-
           </p>
 
-
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-white">
-
+          <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-white">
             Featured Categories
-
           </h2>
 
-
-          <p className="mt-4 text-gray-300 max-w-2xl mx-auto">
-
+          <p className="mt-3 sm:mt-4 text-gray-300 max-w-2xl mx-auto text-sm sm:text-base">
             Explore our latest collections.
-
           </p>
-
 
           {/* BUTTONS */}
 
-          <div className="flex justify-center gap-4 mt-8">
+          {canSlide && (
 
-            <button
-              type="button"
-              onClick={prev}
-              disabled={categories.length <= visibleCards}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition disabled:opacity-40 disabled:cursor-not-allowed"
-            >
+            <div className="flex justify-center gap-4 mt-6 sm:mt-8">
 
-              <ChevronLeft size={24} />
+              <button
+                onClick={prev}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
+              >
+                <ChevronLeft size={22} />
+              </button>
 
-            </button>
+              <button
+                onClick={next}
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition"
+              >
+                <ChevronRight size={22} />
+              </button>
 
+            </div>
 
-            <button
-              type="button"
-              onClick={next}
-              disabled={categories.length <= visibleCards}
-              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white hover:bg-[#F5A524] hover:text-black transition disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-
-              <ChevronRight size={24} />
-
-            </button>
-
-          </div>
+          )}
 
         </div>
 
 
         {/* SLIDER */}
 
-        <div
-          ref={sliderRef}
-          className="flex w-full overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory scrollbar-hide"
-        >
+        <div className="overflow-hidden">
 
-          {categories.map(
-            (category) => (
+          <div
+            className="flex transition-transform duration-700 ease-out"
+            style={{
+              transform: `translateX(-${current * cardWidthPercent}%)`,
+            }}
+          >
+
+            {categories.map((category) => (
 
               <div
                 key={category.id}
-                className="shrink-0 basis-1/2 snap-start px-2 md:basis-1/3 md:px-3 bg-transparent"
+                className="shrink-0 px-1.5 sm:px-2 lg:px-3"
+                style={{ width: `${cardWidthPercent}%` }}
               >
-                <div className="h-full bg-white rounded-3xl overflow-hidden shadow-2xl hover:-translate-y-2 transition duration-500">
+
+                <div className="h-full bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl hover:-translate-y-2 transition duration-500">
 
                   {/* IMAGE */}
 
-                  <div className="relative h-[160px] sm:h-[190px] md:h-[230px] overflow-hidden">
+                  <div className="relative h-[140px] sm:h-[175px] md:h-[230px] overflow-hidden">
 
                     {category.image ? (
 
@@ -480,62 +238,37 @@ export default function U_Categories() {
                     ) : (
 
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-
-                        <Package
-                          size={45}
-                          className="text-gray-400"
-                        />
-
+                        <Package size={40} className="text-gray-400" />
                       </div>
 
                     )}
 
-
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-
-                    <div className="absolute top-2.5 left-2.5 md:top-4 md:left-4 bg-[#F5A524] text-black font-semibold px-2.5 py-1 md:px-4 rounded-full text-[9px] md:text-xs">
-
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#F5A524] text-black font-semibold px-3 py-1 sm:px-4 rounded-full text-[10px] sm:text-xs">
                       FEATURED
-
                     </div>
 
                   </div>
-
 
                   {/* CONTENT */}
 
                   <div className="p-3 sm:p-4 md:p-6">
 
-                    <h3 className="text-base sm:text-lg md:text-2xl font-bold text-gray-900">
-
+                    <h3 className="text-sm sm:text-lg md:text-2xl font-bold text-gray-900 truncate">
                       {category.name}
-
                     </h3>
 
-
-                    <p className="mt-2 md:mt-3 text-xs sm:text-sm md:text-base text-gray-500 line-clamp-2 min-h-[32px] md:min-h-[48px]">
-
-                      {category.description ||
-                        `Explore our ${category.name} collection.`}
-
+                    <p className="mt-2 md:mt-3 text-xs sm:text-sm md:text-base text-gray-500 line-clamp-2">
+                      {category.description || `Explore our ${category.name} collection.`}
                     </p>
 
-
                     <button
-                      type="button"
-                      onClick={() =>
-                        navigate(
-                          `/products?category=${category.slug}`
-                        )
-                      }
-                      className="mt-3 md:mt-6 w-full py-2 md:py-3 rounded-lg md:rounded-xl bg-[#0B0F19] text-white text-xs md:text-base font-semibold flex justify-center items-center gap-1.5 md:gap-2 hover:bg-[#F5A524] hover:text-black transition"
+                      onClick={() => navigate(`/products?category=${category.slug}`)}
+                      className="mt-3 md:mt-6 w-full py-2 sm:py-2.5 md:py-3 rounded-lg md:rounded-xl bg-[#0B0F19] text-white text-xs sm:text-sm md:text-base font-semibold flex justify-center items-center gap-1.5 md:gap-2 hover:bg-[#F5A524] hover:text-black transition"
                     >
-
                       Shop Now
-
-                      <ArrowRight size={16} className="md:w-[18px] md:h-[18px]" />
-
+                      <ArrowRight size={16} />
                     </button>
 
                   </div>
@@ -544,8 +277,9 @@ export default function U_Categories() {
 
               </div>
 
-            )
-          )}
+            ))}
+
+          </div>
 
         </div>
 
