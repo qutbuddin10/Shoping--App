@@ -1101,6 +1101,7 @@ const Navbar = () => {
                 Contact
               </Link>
 
+              {/* <div className="my-2 h-px bg-white/10" /> */}
               <div className="my-2 h-px bg-white/10" />
 
               {user ? (
