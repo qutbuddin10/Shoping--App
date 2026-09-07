@@ -1,5 +1,5 @@
+// Render deployment refresh marker: 2026-09-07-navbar
 import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 import {
   Search,
@@ -65,7 +65,7 @@ const SearchSuggestions = ({
         <button
           type="button"
           onClick={onViewAll}
-          className="mt-2 text-xs font-semibold text-[#3B9CFF] hover:underline"
+          className="mt-2 text-xs font-semibold text-[#F5A524] hover:underline"
         >
           Search for "{query}"
         </button>
@@ -104,7 +104,7 @@ const SearchSuggestions = ({
                 </p>
               </div>
 
-              <span className="text-sm font-bold text-[#3B9CFF]">
+              <span className="text-sm font-bold text-[#F5A524]">
                 ₹{product.price}
               </span>
             </button>
@@ -126,9 +126,9 @@ const SearchSuggestions = ({
                 key={categoryName}
                 type="button"
                 onClick={() => onCategoryClick(categoryName)}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5A524]/10 text-[#3B9CFF]">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5A524]/10 text-[#F5A524]">
                   <Search size={15} />
                 </span>
                 {categoryName}
@@ -142,7 +142,7 @@ const SearchSuggestions = ({
         <button
           type="button"
           onClick={onViewAll}
-          className="w-full rounded-xl px-3 py-2.5 text-center text-sm font-bold text-[#3B9CFF] transition hover:bg-[#F5A524]/10"
+          className="w-full rounded-xl px-3 py-2.5 text-center text-sm font-bold text-[#F5A524] transition hover:bg-[#F5A524]/10"
         >
           View all results for "{query}"
         </button>
@@ -500,7 +500,21 @@ const Navbar = () => {
     setMobileMenu(false);
     setUserMenu(false);
 
-    navigate("/#categories");
+    if (location.pathname === "/") {
+      const categoriesSection =
+        document.getElementById("categories");
+
+      if (categoriesSection) {
+        categoriesSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      return;
+    }
+
+    navigate("/");
 
     setTimeout(() => {
       const categoriesSection =
@@ -512,7 +526,7 @@ const Navbar = () => {
           block: "start",
         });
       }
-    }, location.pathname === "/" ? 50 : 300);
+    }, 300);
   };
 
   // ==========================================
@@ -557,11 +571,9 @@ const Navbar = () => {
           NAVBAR
       ========================================== */}
 
-      <nav className="sticky top-0 z-[100] w-full border-b border-white/[0.07] bg-gradient-to-br from-[#060B18] via-[#0A1834] to-[#0B2A5B]/98 backdrop-blur-2xl shadow-[0_12px_45px_rgba(0,0,0,0.42)]">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#2196FF]/60 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-[18%] top-0 h-16 bg-[#2196FF]/[0.04] blur-2xl" />
+      <nav className="sticky top-0 z-[100] w-full border-b border-blue-300/10 bg-gradient-to-r from-[#08152F]/98 via-[#0B1D3D]/98 to-[#0A1731]/98 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.18)]">
 
-        <div className="relative mx-auto flex h-[82px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-[78px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
 
           {/* ================= LOGO ================= */}
 
@@ -570,19 +582,19 @@ const Navbar = () => {
             onClick={() => setMobileMenu(false)}
             className="flex items-center gap-2"
           >
-            <motion.div
-              whileHover={{ scale: 1.06, rotate: -3 }}
-              transition={{ type: "spring", stiffness: 380, damping: 20 }}
-              className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F5A524] via-[#FFB83D] to-[#FFD06A] text-[#07111F] shadow-[0_10px_30px_rgba(245,165,36,0.24)]"
-            >
-              <div className="absolute inset-0 rounded-2xl bg-white/20 blur-md" />
-              <ShoppingCart className="relative" size={21} strokeWidth={2.5} />
-            </motion.div>
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F5A524] to-[#FFBD4A] text-[#08152F] shadow-[0_8px_25px_rgba(245,165,36,0.28)] transition-transform duration-300 hover:scale-105">
+
+              <ShoppingCart
+                size={21}
+                strokeWidth={2.5}
+              />
+
+            </div>
 
             <div>
               <h1 className="text-[21px] font-black tracking-tight text-white">
                 Shop
-                <span className="bg-gradient-to-r from-[#3B9CFF] via-[#63B7FF] to-[#8AC8FF] bg-clip-text text-transparent">
+                <span className="text-[#F5A524]">
                   Nest
                 </span>
               </h1>
@@ -595,21 +607,21 @@ const Navbar = () => {
 
           {/* ================= DESKTOP NAV ================= */}
 
-          <div className="hidden items-center gap-1 rounded-2xl border border-white/[0.05] bg-white/[0.025] p-1 lg:flex">
+          <div className="hidden items-center gap-8 lg:flex">
 
             {/* HOME */}
 
             <Link
               to="/"
-              className={`relative rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                location.pathname === "/" && location.hash !== "#categories"
-                  ? "bg-[#2196FF]/10 text-[#63B7FF] shadow-[inset_0_0_18px_rgba(33,150,255,0.06)]"
-                  : "text-slate-200/85 hover:text-white"
+              className={`relative px-3 py-2 text-sm font-semibold transition-all duration-300 ${
+                location.pathname === "/"
+                  ? "text-[#F5A524]"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
               Home
-                            {location.pathname === "/" && location.hash !== "#categories" && (
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[#39A4FF] shadow-[0_0_12px_rgba(33,150,255,0.85)]" />
+                            {location.pathname === "/" && (
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#F5A524] shadow-[0_0_10px_rgba(245,165,36,0.65)]" />
               )}
             </Link>
 
@@ -617,15 +629,15 @@ const Navbar = () => {
 
             <button
               onClick={handleShop}
-              className={`relative rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
+              className={`relative px-3 py-2 text-sm font-semibold transition-all duration-300 ${
                 location.pathname === "/products"
-                  ? "bg-[#2196FF]/10 text-[#63B7FF] shadow-[inset_0_0_18px_rgba(33,150,255,0.06)]"
-                  : "text-slate-200/85 hover:text-white"
+                  ? "text-[#F5A524]"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
               Shop
               {location.pathname === "/products" && (
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[#39A4FF] shadow-[0_0_12px_rgba(33,150,255,0.85)]" />
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#F5A524] shadow-[0_0_10px_rgba(245,165,36,0.65)]" />
               )}
             </button>
 
@@ -633,15 +645,11 @@ const Navbar = () => {
 
             <button
               onClick={handleCategories}
-              className={`relative rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
-                location.pathname === "/" && location.hash === "#categories"
-                  ? "bg-[#2196FF]/10 text-[#63B7FF] shadow-[inset_0_0_18px_rgba(33,150,255,0.06)]"
-                  : "text-slate-200/85 hover:bg-white/[0.045] hover:text-white"
-              }`}
+              className="relative px-3 py-2 text-sm font-semibold text-slate-300 transition-all duration-300 hover:text-white"
             >
               Categories
-              {location.pathname === "/" && location.hash === "#categories" && (
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[#39A4FF] shadow-[0_0_12px_rgba(33,150,255,0.85)]" />
+              {location.pathname === "/" && (
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#F5A524]/80 shadow-[0_0_10px_rgba(245,165,36,0.45)]" />
               )}
             </button>
 
@@ -649,15 +657,15 @@ const Navbar = () => {
 
             <Link
               to="/about"
-              className={`relative rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
+              className={`relative px-3 py-2 text-sm font-semibold transition-all duration-300 ${
                 location.pathname === "/about"
-                  ? "bg-[#2196FF]/10 text-[#63B7FF] shadow-[inset_0_0_18px_rgba(33,150,255,0.06)]"
-                  : "text-slate-200/85 hover:text-white"
+                  ? "text-[#F5A524]"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
               About
                             {location.pathname === "/about" && (
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[#39A4FF] shadow-[0_0_12px_rgba(33,150,255,0.85)]" />
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#F5A524] shadow-[0_0_10px_rgba(245,165,36,0.65)]" />
               )}
             </Link>
 
@@ -665,15 +673,15 @@ const Navbar = () => {
 
             <Link
               to="/contact"
-              className={`relative rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-300 ${
+              className={`relative px-3 py-2 text-sm font-semibold transition-all duration-300 ${
                 location.pathname === "/contact"
-                  ? "bg-[#2196FF]/10 text-[#63B7FF] shadow-[inset_0_0_18px_rgba(33,150,255,0.06)]"
-                  : "text-slate-200/85 hover:text-white"
+                  ? "text-[#F5A524]"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
               Contact
                             {location.pathname === "/contact" && (
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[#39A4FF] shadow-[0_0_12px_rgba(33,150,255,0.85)]" />
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#F5A524] shadow-[0_0_10px_rgba(245,165,36,0.65)]" />
               )}
             </Link>
 
@@ -681,7 +689,7 @@ const Navbar = () => {
 
           {/* ================= RIGHT SIDE ================= */}
 
-          <div className="hidden items-center gap-2 rounded-2xl border border-white/[0.05] bg-white/[0.025] p-1.5 lg:flex">
+          <div className="hidden items-center gap-3 lg:flex">
 
             {/* SEARCH */}
 
@@ -693,12 +701,11 @@ const Navbar = () => {
                   setSearchOpen(true);
                   setTimeout(() => searchInputRef.current?.focus(), 50);
                 }}
-                className="group flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-slate-300 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#2196FF]/40 hover:bg-[#2196FF]/10 hover:text-[#63B7FF] hover:shadow-[0_8px_24px_rgba(33,150,255,0.12)]"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-300 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#F5A524]/50 hover:bg-[#F5A524]/10 hover:text-[#F5A524] hover:shadow-[0_8px_22px_rgba(245,165,36,0.10)]"
               >
                 <Search size={19} />
               </button>
 
-              <AnimatePresence>
               {searchOpen && (
                 <>
                   <div
@@ -706,12 +713,7 @@ const Navbar = () => {
                     onClick={() => setSearchOpen(false)}
                   />
 
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute right-0 top-14 z-[90] w-[390px] overflow-hidden rounded-2xl border border-blue-200/10 bg-[#11131E]/98 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+                  <div className="absolute right-0 top-14 z-[90] w-[390px] overflow-hidden rounded-2xl border border-blue-200/10 bg-[#0D1B35]/98 shadow-[0_25px_70px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
                     <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.025] px-3 py-3">
                       <Search size={18} className="shrink-0 text-gray-400" />
 
@@ -777,10 +779,9 @@ const Navbar = () => {
                         }}
                       />
                     )}
-                  </motion.div>
+                  </div>
                 </>
               )}
-            </AnimatePresence>
             </div>
 
             {/* WISHLIST */}
@@ -805,7 +806,7 @@ const Navbar = () => {
 
                 navigate("/wishlist");
               }}
-              className="group relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-slate-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-rose-400/40 hover:bg-rose-400/10 hover:text-rose-300"
+              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-300 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-rose-400/40 hover:bg-rose-400/10 hover:text-rose-300"
             >
               <Heart size={19} />
             </button>
@@ -833,12 +834,12 @@ const Navbar = () => {
 
                 navigate("/cart");
               }}
-              className="group relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.035] text-slate-300 transition-all duration-300 hover:-translate-y-0.5 hover:border-[#F5A524]/45 hover:bg-[#F5A524]/10 hover:text-[#F5A524] hover:shadow-[0_8px_24px_rgba(245,165,36,0.10)]"
+              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-300 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#F5A524]/50 hover:bg-[#F5A524]/10 hover:text-[#F5A524] hover:shadow-[0_8px_22px_rgba(245,165,36,0.10)]"
             >
               <ShoppingCart size={19} />
 
               <span
-                className={`absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-[#080A12] bg-[#F5A524] px-1 text-[9px] font-extrabold text-[#071327] ${
+                className={`absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-[#0B1D3D] bg-[#F5A524] px-1 text-[9px] font-extrabold text-[#071327] ${
                   cartPulse ? "cartBadgePulse" : ""
                 }`}
               >
@@ -855,7 +856,7 @@ const Navbar = () => {
                   onClick={() =>
                     setUserMenu(!userMenu)
                   }
-                  className="group flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.045] px-3 py-2 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#2196FF]/40 hover:bg-white/[0.075]"
+                  className="group flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.06] px-3 py-2 shadow-inner shadow-white/[0.02] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#F5A524]/40 hover:bg-white/[0.09]"
                 >
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#F5A524] to-[#FFBF55] text-sm font-black text-[#071327] shadow-[0_5px_18px_rgba(245,165,36,0.22)]">
                     {user.name
@@ -875,7 +876,7 @@ const Navbar = () => {
                         "User"}
                     </p>
 
-                    <p className="text-[10px] font-medium text-slate-500">
+                    <p className="text-[10px] font-medium text-blue-100/40">
                       Account
                     </p>
 
@@ -915,7 +916,7 @@ const Navbar = () => {
                         setUserMenu(false);
                         setMobileMenu(false);
                       }}
-                      className="mt-2 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                      className="mt-2 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
                     >
                       <User size={17} />
                       My Profile
@@ -926,7 +927,7 @@ const Navbar = () => {
                         setUserMenu(false);
                         navigate("/wishlist");
                       }}
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
                     >
                       <Heart size={17} />
                       Wishlist
@@ -937,7 +938,7 @@ const Navbar = () => {
                         setUserMenu(false);
                         navigate("/cart");
                       }}
-                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
                     >
                       <ShoppingCart size={17} />
                       My Cart
@@ -963,7 +964,7 @@ const Navbar = () => {
                 onClick={() =>
                   navigate("/login")
                 }
-                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#F5A524] to-[#FFB83D] px-5 py-2.5 text-sm font-extrabold text-[#071327] shadow-[0_8px_26px_rgba(245,165,36,0.22)] ring-1 ring-[#FFD06A]/20 transition-all duration-300 hover:-translate-y-0.5 hover:from-[#FFC15A] hover:to-[#FFD17D] hover:shadow-[0_14px_34px_rgba(245,165,36,0.30)]"
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#F5A524] to-[#FFBC46] px-5 py-2.5 text-sm font-extrabold text-[#071327] shadow-[0_8px_24px_rgba(245,165,36,0.20)] transition-all duration-300 hover:-translate-y-0.5 hover:from-[#FFC15A] hover:to-[#FFD17D] hover:shadow-[0_12px_30px_rgba(245,165,36,0.28)]"
               >
                 <User size={17} />
                 Login
@@ -999,12 +1000,12 @@ const Navbar = () => {
 
                 navigate("/cart");
               }}
-              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.045] text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
+              className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#F5A524]"
             >
               <ShoppingCart size={19} />
 
               <span
-                className={`absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-[#080A12] bg-[#F5A524] px-1 text-[9px] font-extrabold text-[#071327] ${
+                className={`absolute -right-1.5 -top-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-[#0B1D3D] bg-[#F5A524] px-1 text-[9px] font-extrabold text-[#071327] ${
                   cartPulse ? "cartBadgePulse" : ""
                 }`}
               >
@@ -1018,7 +1019,7 @@ const Navbar = () => {
               onClick={() =>
                 setMobileMenu(!mobileMenu)
               }
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.045] text-white transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.06] text-white transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#F5A524]"
             >
               {mobileMenu ? (
                 <X size={21} />
@@ -1034,7 +1035,7 @@ const Navbar = () => {
         {/* ================= MOBILE MENU ================= */}
 
         {mobileMenu && (
-          <div className="border-t border-white/10 bg-gradient-to-b from-[#0C0D16] to-[#090A11] px-5 py-5 shadow-2xl lg:hidden">
+          <div className="border-t border-white/10 bg-gradient-to-b from-[#0A1934] to-[#071327] px-5 py-5 shadow-2xl lg:hidden">
 
             <div className="flex flex-col gap-2">
 
@@ -1045,7 +1046,7 @@ const Navbar = () => {
                   setSearchOpen(true);
                   setTimeout(() => searchInputRef.current?.focus(), 50);
                 }}
-                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#3B9CFF]"
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-left text-sm font-semibold text-slate-300 transition-all duration-300 hover:border-[#F5A524]/40 hover:bg-[#F5A524]/10 hover:text-[#F5A524]"
               >
                 <Search size={18} />
                 Search products & categories
@@ -1056,7 +1057,7 @@ const Navbar = () => {
                 onClick={() =>
                   setMobileMenu(false)
                 }
-                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
                 Home
               </Link>
@@ -1065,7 +1066,7 @@ const Navbar = () => {
 
               <button
                 onClick={handleShop}
-                className="rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
                 Shop
               </button>
@@ -1074,7 +1075,7 @@ const Navbar = () => {
 
               <button
                 onClick={handleCategories}
-                className="rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="rounded-xl px-4 py-3 text-left text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
                 Categories
               </button>
@@ -1084,7 +1085,7 @@ const Navbar = () => {
                 onClick={() =>
                   setMobileMenu(false)
                 }
-                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
                 About
               </Link>
@@ -1096,12 +1097,11 @@ const Navbar = () => {
                 onClick={() =>
                   setMobileMenu(false)
                 }
-                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#3B9CFF]"
+                className="rounded-xl px-4 py-3 text-sm font-medium text-gray-300 transition hover:bg-white/5 hover:text-[#F5A524]"
               >
                 Contact
               </Link>
 
-              {/* <div className="my-2 h-px bg-white/10" /> */}
               <div className="my-2 h-px bg-white/10" />
 
               {user ? (
@@ -1140,7 +1140,7 @@ const Navbar = () => {
                       setMobileMenu(false);
                       setUserMenu(false);
                     }}
-                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#3B9CFF]"
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#F5A524]"
                   >
                     <User size={18} />
                     My Profile
@@ -1151,7 +1151,7 @@ const Navbar = () => {
                       setMobileMenu(false);
                       navigate("/wishlist");
                     }}
-                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#3B9CFF]"
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#F5A524]"
                   >
                     <Heart size={18} />
                     Wishlist
@@ -1162,7 +1162,7 @@ const Navbar = () => {
                       setMobileMenu(false);
                       navigate("/cart");
                     }}
-                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#3B9CFF]"
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-gray-300 hover:bg-white/5 hover:text-[#F5A524]"
                   >
                     <ShoppingCart size={18} />
                     My Cart
