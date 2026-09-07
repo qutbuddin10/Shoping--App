@@ -1,4 +1,3 @@
-// Render deployment refresh marker: 2026-09-07-about
 import React from "react";
 import {
     ArrowRight,
