@@ -254,11 +254,11 @@ const About = () => {
                                     <div className="absolute bottom-6 left-5 right-5 rounded-2xl border border-white/30 bg-white/90 p-5 shadow-[0_25px_70px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:left-7 sm:right-7">
                                         <div className="flex items-center justify-between gap-4">
                                             <div>
-                                                <p className="text-xs font-medium text-slate-300">
+                                                <p className="text-xs font-medium text-slate-600 sm:text-sm">
                                                     Shop with confidence
                                                 </p>
 
-                                                <p className="mt-1 text-xl font-black text-white">
+                                                <p className="mt-1 text-base font-black leading-tight text-slate-900 sm:text-xl">
                                                     Fashion • Tech • Lifestyle
                                                 </p>
                                             </div>
