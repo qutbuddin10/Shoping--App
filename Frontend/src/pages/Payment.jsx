@@ -657,9 +657,9 @@ const Payment = () => {
                 MAIN
             ================================================= */}
 
-            <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-3.5 py-6 sm:px-6 sm:py-8 lg:px-8">
 
-                <div className="mb-8">
+                <div className="mb-6 sm:mb-8">
                     <p className="text-sm font-semibold uppercase tracking-[3px] text-[#F5A524]">
                         Secure Checkout
                     </p>
@@ -673,7 +673,7 @@ const Payment = () => {
                     </p>
                 </div>
 
-                <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+                <div className="grid gap-6 lg:grid-cols-[1fr_380px] lg:gap-8">
 
                     {/* =================================================
                         LEFT
@@ -683,7 +683,7 @@ const Payment = () => {
 
                         {/* DELIVERY ADDRESS */}
 
-                        <div className="rounded-[1.5rem] border border-white/10 bg-[#0D1628]/90 p-6 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+                        <div className="rounded-[1.4rem] border border-white/10 bg-[#0D1628]/90 p-4 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:rounded-[1.5rem] sm:p-6">
 
                             <div className="flex items-center justify-between">
 
@@ -743,7 +743,7 @@ const Payment = () => {
 
                         {/* PAYMENT METHODS */}
 
-                        <div className="rounded-[1.5rem] border border-white/10 bg-[#0D1628]/90 p-6 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+                        <div className="rounded-[1.4rem] border border-white/10 bg-[#0D1628]/90 p-4 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:rounded-[1.5rem] sm:p-6">
 
                             <div className="mb-6">
 
@@ -768,7 +768,7 @@ const Payment = () => {
                                             "COD"
                                         )
                                     }
-                                    className={`w-full rounded-2xl border p-4 text-left transition-all ${
+                                    className={`w-full rounded-xl border p-3.5 text-left transition-all sm:rounded-2xl sm:p-4 ${
                                         selectedPayment ===
                                         "COD"
                                             ? "border-[#F5A524]/70 bg-[#F5A524]/[0.08] shadow-[0_0_35px_rgba(245,165,36,0.08)]"
@@ -776,9 +776,9 @@ const Payment = () => {
                                     }`}
                                 >
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3 sm:gap-4">
 
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 bg-emerald-500/10 text-emerald-400">
                                             <Truck size={22} />
                                         </div>
 
@@ -820,7 +820,7 @@ const Payment = () => {
                                             "UPI"
                                         )
                                     }
-                                    className={`w-full rounded-2xl border p-4 text-left transition-all ${
+                                    className={`w-full rounded-xl border p-3.5 text-left transition-all sm:rounded-2xl sm:p-4 ${
                                         selectedPayment ===
                                         "UPI"
                                             ? "border-[#F5A524]/70 bg-[#F5A524]/[0.08] shadow-[0_0_35px_rgba(245,165,36,0.08)]"
@@ -828,9 +828,9 @@ const Payment = () => {
                                     }`}
                                 >
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3 sm:gap-4">
 
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 bg-blue-500/10 text-blue-400">
                                             <Smartphone size={22} />
                                         </div>
 
@@ -872,7 +872,7 @@ const Payment = () => {
                                             "CARD"
                                         )
                                     }
-                                    className={`w-full rounded-2xl border p-4 text-left transition-all ${
+                                    className={`w-full rounded-xl border p-3.5 text-left transition-all sm:rounded-2xl sm:p-4 ${
                                         selectedPayment ===
                                         "CARD"
                                             ? "border-[#F5A524]/70 bg-[#F5A524]/[0.08] shadow-[0_0_35px_rgba(245,165,36,0.08)]"
@@ -880,9 +880,9 @@ const Payment = () => {
                                     }`}
                                 >
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3 sm:gap-4">
 
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400">
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-12 sm:w-12 bg-violet-500/10 text-violet-400">
                                             <CreditCard size={22} />
                                         </div>
 
@@ -919,7 +919,7 @@ const Payment = () => {
 
                             {/* SECURITY */}
 
-                            <div className="mt-6 flex items-center gap-3 rounded-xl border border-white/10 bg-[#0A1220]/80 p-4">
+                            <div className="mt-5 flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#0A1220]/80 p-3.5 sm:mt-6 sm:gap-3 sm:p-4">
 
                                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
                                     <ShieldCheck size={18} />
@@ -945,7 +945,7 @@ const Payment = () => {
                         RIGHT - ORDER SUMMARY
                     ================================================= */}
 
-                    <div className="h-fit rounded-[1.5rem] border border-white/10 bg-[#0D1628]/90 p-6 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl lg:sticky lg:top-6">
+                    <div className="h-fit rounded-[1.4rem] border border-white/10 bg-[#0D1628]/90 p-4 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:rounded-[1.5rem] sm:p-6 lg:sticky lg:top-6">
 
                         <h2 className="text-xl font-bold text-white">
                             Order Summary
@@ -1018,7 +1018,7 @@ const Payment = () => {
                             type="button"
                             onClick={handlePayment}
                             disabled={placingOrder}
-                            className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#F5A524] px-5 font-bold text-black shadow-lg shadow-[#F5A524]/20 transition-all hover:bg-[#E99A0C] disabled:cursor-not-allowed disabled:opacity-60"
+                            className="mt-5 flex h-12 w-full items-center justify-center gap-2 sm:mt-6 sm:h-14 rounded-xl bg-[#F5A524] px-5 font-bold text-black shadow-lg shadow-[#F5A524]/20 transition-all hover:bg-[#E99A0C] disabled:cursor-not-allowed disabled:opacity-60"
                         >
 
                             {placingOrder ? (

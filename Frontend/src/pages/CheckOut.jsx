@@ -343,7 +343,7 @@ export default function Checkout() {
 
         <div className="pointer-events-none absolute -left-32 bottom-0 h-[300px] w-[300px] rounded-full bg-[#111827]/[0.025] blur-[110px]" />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-11 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-3.5 py-6 sm:px-6 sm:py-11 lg:px-8">
           {/* Back */}
           <button
             onClick={() => navigate("/cart")}
@@ -359,14 +359,14 @@ export default function Checkout() {
           <div className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="mb-3 flex items-center gap-2">
-                <div className="h-1.5 w-1.5 rounded-full bg-[#F5A524]/[0.10]0" />
+                <div className="h-1.5 w-1.5 rounded-full bg-[#F5A524]/[0.10]" />
 
                 <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#F5A524]">
                   Checkout
                 </p>
               </div>
 
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              <h1 className="text-[2rem] leading-tight font-bold tracking-tight text-white sm:text-5xl">
                 Delivery Address
               </h1>
 
@@ -403,8 +403,8 @@ export default function Checkout() {
           MAIN
       ===================================================== */}
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-        <div className="grid gap-8 lg:grid-cols-12 lg:items-start lg:gap-10">
+      <main className="mx-auto max-w-7xl px-3.5 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-10">
           {/* =====================================================
               LEFT
           ===================================================== */}
@@ -424,7 +424,7 @@ export default function Checkout() {
 
               <button
                 onClick={openAddForm}
-                className="group inline-flex w-fit items-center gap-2 rounded-2xl bg-[#080D18] px-5 py-3 text-sm font-bold text-white shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F5A524]/[0.10]0 hover:text-white hover:shadow-amber-500/25"
+                className="group inline-flex w-fit items-center gap-2 rounded-2xl bg-[#080D18] px-5 py-3 text-sm font-bold text-white shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F5A524]/[0.10] hover:text-white hover:shadow-amber-500/25"
               >
                 <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/10 transition-colors group-hover:bg-[#080D18]/10">
                   <Plus size={14} />
@@ -440,7 +440,7 @@ export default function Checkout() {
 
             <div className="mt-6 space-y-4">
               {addresses.length === 0 && (
-                <div className="relative overflow-hidden rounded-[1.8rem] border border-dashed border-white/15 bg-[#0D1628]/90 p-10 text-center sm:p-14">
+                <div className="relative overflow-hidden rounded-[1.5rem] border border-dashed border-white/15 bg-[#0D1628]/90 p-6 text-center sm:rounded-[1.8rem] sm:p-14">
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400/[0.07] blur-[100px]" />
 
                   <div className="relative mx-auto flex h-20 w-20 items-center justify-center rounded-[1.5rem] bg-[#F5A524]/[0.10]">
@@ -462,7 +462,7 @@ export default function Checkout() {
 
                   <button
                     onClick={openAddForm}
-                    className="relative mt-6 inline-flex items-center gap-2 rounded-xl bg-[#080D18] px-5 py-3 text-sm font-bold text-white transition-all hover:bg-[#F5A524]/[0.10]0 hover:text-white"
+                    className="relative mt-6 inline-flex items-center gap-2 rounded-xl bg-[#080D18] px-5 py-3 text-sm font-bold text-white transition-all hover:bg-[#F5A524]/[0.10] hover:text-white"
                   >
                     <Plus size={15} />
                     Add your first address
@@ -479,7 +479,7 @@ export default function Checkout() {
                   <div
                     key={address.id}
                     onClick={() => setSelectedAddress(address.id)}
-                    className={`group relative cursor-pointer overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#0D1628]/90 p-4 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.65)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-18px_rgba(0,0,0,0.18)] sm:p-5 ${
+                    className={`group relative cursor-pointer overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0D1628]/90 p-3.5 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.65)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_20px_45px_-18px_rgba(0,0,0,0.18)] sm:rounded-[1.7rem] sm:p-5 ${
                       selectedAddress === address.id
                         ? "border-amber-400 ring-2 ring-amber-400/15"
                         : "border-white/10 hover:border-white/15"
@@ -487,10 +487,10 @@ export default function Checkout() {
                   >
                     {/* Selected left accent */}
                     {selectedAddress === address.id && (
-                      <div className="absolute left-0 top-0 h-full w-1 bg-[#F5A524]/[0.10]0" />
+                      <div className="absolute left-0 top-0 h-full w-1 bg-[#F5A524]/[0.10]" />
                     )}
 
-                    <div className="flex gap-4 sm:gap-5">
+                    <div className="flex gap-3 sm:gap-5">
                       {/* Icon */}
                       <div
                         className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:scale-105 ${
@@ -507,7 +507,7 @@ export default function Checkout() {
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                           <div>
                             <div className="flex flex-wrap items-center gap-2">
-                              <h3 className="text-base font-bold text-white sm:text-lg">
+                              <h3 className="text-sm font-bold text-white sm:text-lg">
                                 {address.full_name}
                               </h3>
 
@@ -530,7 +530,7 @@ export default function Checkout() {
                               )}
                             </div>
 
-                            <div className="mt-3 space-y-0.5">
+                            <div className="mt-2.5 space-y-0.5 sm:mt-3">
                               <p className="text-sm leading-6 text-gray-400">
                                 {address.house}, {address.area}
                               </p>
@@ -551,7 +551,7 @@ export default function Checkout() {
                           </div>
 
                           {/* Actions */}
-                          <div className="flex shrink-0 gap-2">
+                          <div className="flex shrink-0 gap-1.5 sm:gap-2">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -581,7 +581,7 @@ export default function Checkout() {
                       <div
                         className={`absolute right-5 top-5 flex h-5 w-5 items-center justify-center rounded-full border-2 transition-all ${
                           selectedAddress === address.id
-                            ? "border-amber-500 bg-[#F5A524]/[0.10]0"
+                            ? "border-amber-500 bg-[#F5A524]/[0.10]"
                             : "border-white/15 bg-[#0D1628]/90 group-hover:border-stone-400"
                         }`}
                       >
@@ -604,11 +604,11 @@ export default function Checkout() {
             ===================================================== */}
 
             {showForm && (
-              <div className="mt-7 overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#0D1628]/90 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+              <div className="mt-6 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0D1628]/90 shadow-[0_25px_70px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl">
                 {/* Form top accent */}
                 <div className="h-1 bg-gradient-to-r from-amber-300 via-amber-500 to-orange-400" />
 
-                <div className="p-5 sm:p-7">
+                <div className="p-4 sm:p-7">
                   {/* Form header */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
@@ -768,7 +768,7 @@ export default function Checkout() {
                     {/* Submit */}
                     <button
                       type="submit"
-                      className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#080D18] font-bold text-white shadow-lg shadow-black/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F5A524]/[0.10]0 hover:text-white hover:shadow-amber-500/25 sm:col-span-2"
+                      className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#080D18] font-bold text-white shadow-lg shadow-black/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F5A524]/[0.10] hover:text-white hover:shadow-amber-500/25 sm:col-span-2"
                     >
                       {editingId ? (
                         <Pencil size={15} />
@@ -801,13 +801,13 @@ export default function Checkout() {
               <div className="h-1.5 bg-gradient-to-r from-amber-300 via-amber-500 to-orange-500" />
 
               {/* Background glow */}
-              <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#F5A524]/[0.10]0/[0.12] blur-[90px]" />
+              <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#F5A524]/[0.10]/[0.12] blur-[90px]" />
 
               <div className="relative p-5 sm:p-7">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F5A524]/[0.10]0 text-white shadow-lg shadow-amber-500/20">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F5A524]/[0.10] text-white shadow-lg shadow-amber-500/20">
                       <MapPin size={19} />
                     </div>
 
@@ -843,7 +843,7 @@ export default function Checkout() {
                           Delivering To
                         </p>
 
-                        <span className="rounded-full bg-[#F5A524]/[0.10]0/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-amber-400">
+                        <span className="rounded-full bg-[#F5A524]/[0.10]/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-amber-400">
                           {selectedAddressData.address_type}
                         </span>
                       </div>
@@ -905,7 +905,7 @@ export default function Checkout() {
                       },
                     })
                   }
-                  className="group mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F5A524]/[0.10]0 py-4 text-sm font-bold text-white shadow-lg shadow-amber-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-amber-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:bg-[#F5A524]/[0.10]0"
+                  className="group mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F5A524]/[0.10] py-4 text-sm font-bold text-white shadow-lg shadow-amber-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-amber-500/30 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:bg-[#F5A524]/[0.10]"
                 >
                   <Lock size={14} />
 
@@ -937,7 +937,7 @@ export default function Checkout() {
                   <div className="space-y-4">
                     {/* Secure */}
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F5A524]/[0.10]0/10">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F5A524]/[0.10]/10">
                         <ShieldCheck
                           size={15}
                           className="text-amber-400"
@@ -957,7 +957,7 @@ export default function Checkout() {
 
                     {/* Delivery */}
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/100/10">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10">
                         <Truck
                           size={15}
                           className="text-emerald-400"
@@ -977,7 +977,7 @@ export default function Checkout() {
 
                     {/* Premium */}
                     <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-500/100/10">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-purple-500/10">
                         <Sparkles
                           size={15}
                           className="text-purple-400"
