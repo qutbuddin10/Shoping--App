@@ -322,7 +322,7 @@ export default function Checkout() {
   );
 
   return (
-    <div className="min-h-screen bg-[#060B18] text-gray-100"> 
+    <div className="relative min-h-screen overflow-x-hidden bg-[#060B18] text-gray-100"> 
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -right-40 top-24 h-[520px] w-[520px] rounded-full bg-[#0B73FF]/[0.06] blur-[140px]" />
         <div className="absolute -left-32 top-[38%] h-[420px] w-[420px] rounded-full bg-[#F5A524]/[0.04] blur-[130px]" />
@@ -796,7 +796,7 @@ export default function Checkout() {
           ===================================================== */}
 
           <div className="lg:col-span-4">
-            <div className="sticky top-24 overflow-hidden rounded-[1.8rem] bg-[#080D18] text-white shadow-[0_25px_70px_-25px_rgba(0,0,0,0.4)]">
+            <div className="relative sticky top-24 overflow-hidden rounded-[1.8rem] bg-[#080D18] text-white shadow-[0_25px_70px_-25px_rgba(0,0,0,0.4)]">
               {/* Accent */}
               <div className="h-1.5 bg-gradient-to-r from-amber-300 via-amber-500 to-orange-500" />
 
